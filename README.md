@@ -2,12 +2,12 @@
 
 - 前端基础
   - [HTML4](HTML4.md)
-  - CSS2
+  - [CSS2](CSS2.md)
   - HTML5
   - CSS3
-- HTML5实战
-- Bootstrap
 - JavaScript核心
 - JavaScript高级
-- jQuery
 
+
+## 参考资料
+- [Mozilla Developer Network](https://developer.mozilla.org/zh-CN/)
