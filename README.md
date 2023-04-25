@@ -3,7 +3,7 @@
 - 前端基础
   - [HTML4](HTML4.md)
   - [CSS2](CSS2.md)
-  - HTML5
+  - [HTML5](HTML5.md)
   - CSS3
 - JavaScript核心
 - JavaScript高级
