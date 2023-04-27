@@ -825,6 +825,32 @@ transform: translateZ(100px) scaleZ(3) rotateY(40deg);
 
 > 备注： `animation-play-state` 一般单独使用。
 
+### 动画与过渡的区别
+`transition` 需要触发一个事件才会随着时间改变其 `CSS` 属性；`animation` 在不需要触发任何事件的情况下，也可以显式的随时间变化来改变元素 `CSS` 属性，达到一种动画的效果。
+1. 动画不需要事件触发，过渡需要。
+2. 过渡只有一组（两个：开始-结束） 关键帧，动画可以设置多个。
+
+### 动画案例
+```html
+<style>
+#animation-case-bike {
+    width: 130px;
+    height: 130px;
+    background-image: url('./image/CSS3/bike.png');
+    margin: 0 auto;
+    margin-top: 100px;
+    animation: bike 1s steps(31) infinite;
+}
+@keyframes bike {
+    from{}
+    to {
+        background-position: 0px -4030px;
+    }
+}
+</style>
+<div id="animation-case-bike"></div>
+```
+
 
 ## 14. 多列布局
 作用：专门用于实现类似于报纸的布局。
@@ -832,14 +858,49 @@ transform: translateZ(100px) scaleZ(3) rotateY(40deg);
 
 ### 常用属性如下：
 - `column-count` ：指定列数，值是数字。
-- `column-width` ：指定列宽，值是长度。
-- `columns` ：同时指定列宽和列数，复合属性；值没有数量和顺序要求。
+- `column-width` ：指定列宽，值是长度。（自动计算列数）
+- `columns` ：同时指定列宽和列数，复合属性；值没有数量和顺序要求。（最终取节约空间的那个，不推荐使用）
 - `column-gap` ：设置列边距，值是长度。
 - `column-rule-style` ：设置列与列之间边框的风格，值与 `border-style` 一致。
-- `column-rule-width` ：设置列与列之间边框的宽度，值是长度。
+- `column-rule-width` ：设置列与列之间边框的宽度，值是长度（必须是正数）。
 - `column-rule-color` ：设置列与列之间边框的颜色。
 - `coumn-rule` ：设置列边框，复合属性。
-- `column-span` ：指定是否跨列；值: `none` 、 `all` 。
+- `column-span` ：指定是否跨列；值: `none` 、 `all` 。（给需要跨列的内部元素指定）
+
+示例：
+```html
+<div class="outer">
+    <img src="1.jpg">
+    <img src="2.jpg">
+    <img src="3.jpg">
+    <img src="4.jpg">
+    <img src="5.jpg">
+    <img src="6.jpg">
+    <img src="7.jpg">
+    <img src="8.jpg">
+    <img src="9.jpg">
+    <img src="10.jpg">
+    <img src="11.jpg">
+    <img src="12.jpg">
+    <img src="13.jpg">
+    <img src="14.jpg">
+    ...
+</div>
+```
+
+```css
+.outer {
+    column-count: 5;
+}
+img {
+    width: 100%;
+    transition: 0.2s linear;
+}
+img:hover {
+    box-shadow: 0px 0px 20px black;
+    transform: scale(1.02);
+}
+```
 
 
 ## 15.伸缩盒模型
@@ -847,8 +908,8 @@ transform: translateZ(100px) scaleZ(3) rotateY(40deg);
 ### 1. 伸缩盒模型简介
 - `2009` 年， `W3C` 提出了一种新的盒子模型 —— `Flexible Box` （伸缩盒模型，又称：弹性盒子）。
 - 它可以轻松的控制：元素分布方式、元素对齐方式、元素视觉顺序 .......
-  - 截止目前，除了在部分 IE 浏览器不支持，其他浏览器均已全部支持。
-  - 伸缩盒模型的出现，逐渐演变出了一套新的布局方案 —— flex 布局。
+- 截止目前，除了在部分 `IE` 浏览器不支持，其他浏览器均已全部支持。
+- 伸缩盒模型的出现，逐渐演变出了一套新的布局方案 —— `flex` 布局。
 
 > 小贴士：
 > 1. 传统布局是指：基于传统盒状模型，主要靠： `display` 属性 + `position` 属性 + `float` 属性。
@@ -862,7 +923,8 @@ transform: translateZ(100px) scaleZ(3) rotateY(40deg);
 
 **伸缩项目**：伸缩容器所有**子元素**自动成为了：伸缩项目。
 > 1. 仅伸缩容器的**子元素**成为了伸缩项目，孙子元素、重孙子元素等后代，不是伸缩项目。
-> 2. 无论原来是哪种元素（块、行内块、行内），一旦成为了伸缩项目，全都会“块状化”。
+> 2. 无论原来是哪种元素（块、行内块、行内），一旦成为了伸缩项目，全都会“**块状化**”。
+>    ![1682562173876](image/CSS3/1682562173876.png)
 
 ### 3. 主轴与侧轴
 - **主轴**： 伸缩项目沿着主轴排列，主轴默认是水平的，默认方向是：从左到右（左边是起点，右边是终点）。
@@ -889,6 +951,8 @@ transform: translateZ(100px) scaleZ(3) rotateY(40deg);
      ![1682554711953](image/CSS3/1682554711953.png)
   3. `wrap-reverse` ：反向换行。
      ![1682554725269](image/CSS3/1682554725269.png)
+
+> 主轴尽量紧凑（父容器宽度不足时压缩容器内元素宽度）；侧轴尽量分散（父容器高度不足时溢出父容器）。
 
 ### 6. flex-flow
 - `flex-flow` 是一个复合属性，复合了 `flex-direction` 和 `flex-wrap` 两个属性。 值没有顺序要求。
@@ -1009,12 +1073,15 @@ flex-flow: row wrap;
 >    - 项目二需要收缩： `比例值2 × 300`
 >    - 项目三需要收缩： `比例值3 × 300`
 
+> 注意：如果开启了主轴换行，那么当父容器宽度不足是优先换行。  
+> 收缩的极限是保证内容的呈现，如果达到内容宽度，就不会再收缩了。多余的部分会溢出父容器。
+
 ### 11. flex 复合属性
 `flex` 是复合属性，复合了： `flex-grow` 、 `flex-shrink` 、 `flex-basis` 三个属性，默认值为 0 1 auto 。
-- 如果写 `flex:1 1 auto` ，则可简写为： `flex:auto`
-- 如果写 `flex:1 1 0` ，则可简写为： `flex:1`
-- 如果写 `flex:0 0 auto` ，则可简写为： `flex:none`
-- 如果写 `flex:0 1 auto` ，则可简写为： `flex:0 auto` —— 即 `flex` 初始值。
+- 如果写 `flex:1 1 auto` ，**可以拉伸，可以压缩，不设置基准长度**，则可简写为： `flex:auto`
+- 如果写 `flex:1 1 0` ，**可以拉伸，可以压缩，设置基准长度为0**，则可简写为： `flex:1`
+- 如果写 `flex:0 0 auto` ，**不可以拉伸，不可以压缩，不设置基准长度**，则可简写为： `flex:none`
+- 如果写 `flex:0 1 auto` ，**不可以拉伸，可以压缩，不设置基准长度**，则可简写为： `flex:0 auto` —— 即 `flex` 初始值。
 
 ### 12. 项目排序
 - `order` 属性定义项目的排列顺序。数值越小，排列越靠前，默认为 0 。
@@ -1023,10 +1090,138 @@ flex-flow: row wrap;
 - 通过 `align-self` 属性，可以单独调整某个伸缩项目的对齐方式
 - 默认值为 `auto` ，表示继承父元素的 `align-items` 属性。
 
+示例：
+```html
+<!-- 头部 -->
+<header class="page-header">
+    <a href="#">
+        <img src="./image/CSS3/logo.png" alt="logo">
+    </a>
+    <ul class="header-nav">
+        <li><a href="#">国内校区</a></li>
+        <li><a href="#">缅甸校区</a></li>
+        <li><a href="#">非洲校区</a></li>
+        <li><a href="#">美国校区</a></li>
+    </ul>
+</header>
+<!-- 内容区 -->
+<div class="page-content">
+    <div class="content-nav">
+        <div class="item">
+            <img src="./image/CSS3/item1.png" alt=""><span>我的邮箱</span>
+        </div>
+        <div class="item">
+            <img src="./image/CSS3/item2.png" alt=""><span>云服务</span>
+        </div>
+        <div class="item">
+            <img src="./image/CSS3/item3.png" alt=""><span>手机课堂</span>
+        </div>
+        <div class="item">
+            <img src="./image/CSS3/item4.png" alt=""><span>微信服务</span>
+        </div>
+        <div class="item">
+            <img src="./image/CSS3/item5.png" alt=""><span>在线客服</span>
+        </div>
+    </div>
+</div>
+```
+
+```css
+* {
+    font-family: Arial;
+    font-size: 14px;
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+a {
+    text-decoration: none;
+}
+ul {
+    list-style: none;
+}
+html, body {
+    width: 100%;
+    height: 100%;
+}
+body {
+    background-image: url('./image/CSS3/bg.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.page-header {
+    height: 70px;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+.header-nav {
+    display: flex;
+}
+.header-nav li a {
+    color: white;
+    font-size: 20px;
+    border: 1px solid white;
+    border-radius: 8px;
+    padding: 10px;
+    margin-right: 20px;
+}
+.header-nav li:last-child a {
+    margin-right: 0;
+}
+.page-content {
+    display: flex;
+    height: calc(100vh - 70px);
+}
+.content-nav {
+    width: 1000px;
+    height: 300px;
+    margin: auto;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.content-nav .item {
+    width: 180px;
+    height: 200px;
+    background-color: orange;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    transition: 0.2s linear;
+    cursor: pointer;
+}
+.content-nav .item:hover {
+    box-shadow: 0px 0px 20px black;
+}
+.content-nav .item span {
+    font-size: 20px;
+    color: white;
+}
+.content-nav .item:nth-child(1) {
+    background-color: #595CA8;
+}
+.content-nav .item:nth-child(2) {
+    background-color: #FF9D2E;
+}
+.content-nav .item:nth-child(3) {
+    background-color: #01A6DE;
+}
+.content-nav .item:nth-child(4) {
+    background-color: #015E91;
+}
+.content-nav .item:nth-child(5) {
+    background-color: #1DC128;
+}
+```
+
 
 ## 16. 响应式布局
 
-### 媒体查询
+### [媒体查询](https://developer.mozilla.org/zh-CN/docs/Web/CSS/@media)
 
 #### 1. 媒体类型
 | 值         | 含义                                                                       |
@@ -1042,7 +1237,7 @@ flex-flow: row wrap;
 | tty        | ~~已废弃，用于固定的字符网格，如电报、终端设备和对字符有限制的便携设备。~~ |
 | tv         | ~~已废弃，用于电视和网络电视。~~                                           |
 
-> 完整列表请参考： https://developer.mozilla.org/zh-CN/docs/Web/CSS/@media
+> 注意：媒体查询并不具有更高的优先级，所以如果在媒体查询后面的样式，会覆盖媒体查询的样式。
 
 #### 2. 媒体特性
 | 值               | 含义                                                                                                                                                       |
@@ -1058,8 +1253,6 @@ flex-flow: row wrap;
 | min-device-width | 检测设备**屏幕的最小宽度**。                                                                                                                               |
 | orientation      | 检测**视口的旋转方向**（是否横屏）。<ol><li>`portrait` ：视口处于纵向，即高度大于等于宽度。</li><li>`landscape` ：视口处于横向，即宽度大于高度。</li></ol> |
 
-> 完整列表请参考： https://developer.mozilla.org/zh-CN/docs/Web/CSS/@media
-
 #### 3. 运算符
 | 值      | 含义 |
 | ------- | ---- |
@@ -1074,18 +1267,21 @@ flex-flow: row wrap;
 
 #### 5. 结合外部样式的用法
 用法一：
+```css
+/* CSS-Code; */
+```
 ```html
 <link rel="stylesheet" media="具体的媒体查询" href="mystylesheet.css">
 ```
 
 用法二：
 ```css
-@media screen and (max-width:768px) {
+@media 具体的媒体查询 {
   /* CSS-Code; */
 }
-@media screen and (min-width:768px) and (max-width:1200px) {
-  /* CSS-Code; */
-}
+```
+```html
+<link rel="stylesheet" href="mystylesheet.css">
 ```
 
 
@@ -1104,18 +1300,30 @@ flex-flow: row wrap;
 
 ### 2. 开启了BFC能解决什么问题
 1. 元素开启 `BFC` 后，其子元素不会再产生 `margin` 塌陷问题。
+
 2. 元素开启 `BFC` 后，自己不会被其他浮动元素所覆盖。
+
 3. 元素开启 `BFC` 后，就算其子元素浮动，元素自身高度也不会塌陷。
+
 
 ### 3. 如何开启BFC
 - 根元素
-- 浮动元素
-- 绝对定位、固定定位的元素
+- 浮动元素（以浮攻浮）
+- 绝对定位、固定定位的元素（倒反天罡）
 - 行内块元素
-- 表格单元格： `table` 、 `thead` 、 `tbody` 、 `tfoot` 、 `th` 、 `td` 、 `tr` 、 `caption`
+- 表格单元格： `table` 、 `thead` 、 `tbody` 、 `tfoot` 、 `th` 、 `td` 、 `tr` 、 `caption` （或 `display` 的值为 `table`、）
 - `overflow` 的值不为 `visible` 的块元素
-- 伸缩项目
+- 伸缩项目（注意不是伸缩容器）： `display` 的值为 `flex` 的元素的子元素
 - 多列容器
 - `column-span` 为 `all` 的元素（即使该元素没有包裹在多列容器中）
-- `display` 的值，设置为 `flow-root`
+- **`display` 的值，设置为 `flow-root`**
 
+
+---
+![1682577285762](image/CSS3/1682577285762.png)
+
+1. 代码是敲出来，不要眼高手低。
+2. 要不断的学习，持续提升自己。
+3. 要有工匠精神，代码也有生命。
+
+> 愿所有的汗水都有收获，愿所有的努力不被辜负。
