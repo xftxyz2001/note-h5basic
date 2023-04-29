@@ -4,8 +4,8 @@
   - [HTML4](HTML4.md)
   - [CSS2](CSS2.md)
   - [HTML5](HTML5.md)
-  - CSS3
-- JavaScript核心
+  - [CSS3](CSS3.md)
+- [JavaScript核心](JavaScript核心.md)
 - JavaScript高级
 
 
