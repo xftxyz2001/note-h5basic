@@ -12,3 +12,4 @@
 ## 参考资料
 - [Mozilla Developer Network](https://developer.mozilla.org/zh-CN/)
 - [菜鸟教程-HTML 标签简写及全称](https://www.runoob.com/html/html-tag-name.html)
+- [菜鸟教程-JavaScript 和 HTML DOM 参考手册](https://www.runoob.com/jsref/jsref-tutorial.html)
