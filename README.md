@@ -6,7 +6,7 @@
   - [HTML5](HTML5.md)
   - [CSS3](CSS3.md)
 - [JavaScript核心](JavaScript核心.md)
-- JavaScript高级
+- [JavaScript高级](JavaScript高级.md)
 
 
 ## 参考资料
